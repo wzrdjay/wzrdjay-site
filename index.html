@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WZRDJAY — Graphic Designer & Content Creator</title>
+<link rel="icon" type="image/png" href="images/logo-0.png">
+<style>
+  /* ============================================================
+     WZRDJAY PORTFOLIO
+     Single-file site. Stark black & white, big type.
+     ------------------------------------------------------------
+     HOW TO ADD YOUR WORK:  scroll to the <script> block near the
+     bottom and edit the WORK array. Each item takes:
+       type:  "video" | "graphic" | "photo"
+       title, client, year, role
+       media: for video -> a Vimeo/YouTube embed URL (see notes)
+              for graphic/photo -> an image URL or local path
+     ============================================================ */
+
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;900&family=Archivo+Expanded:wght@800;900&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --ink:#0a0a0a;
+    --paper:#ffffff;
+    --line:#0a0a0a;
+    --mute:#8a8a8a;
+    --hover:#f2f2f2;
+    --maxw:1360px;
+    --gutter:clamp(20px,4vw,64px);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Archivo',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.3;
+    overflow-x:hidden;
+  }
+
+  /* ---------- HERO ---------- */
+  header{
+    padding:var(--gutter);
+    padding-top:clamp(28px,5vw,56px);
+    border-bottom:2px solid var(--line);
+  }
+  .top-row{
+    display:flex;justify-content:space-between;
+    align-items:center;gap:16px;flex-wrap:wrap;
+    font-family:'Space Mono',monospace;
+    font-size:13px;letter-spacing:.02em;
+    text-transform:uppercase;
+  }
+  .top-row a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink)}
+  .top-row a:hover{background:var(--ink);color:var(--paper)}
+  .avail{color:var(--mute)}
+  .avail::before{content:"● ";color:var(--ink)}
+
+  .wordmark{
+    font-family:'Archivo Expanded','Archivo',sans-serif;
+    font-weight:900;
+    /* sized to the 7-char word so it fills the width without clipping the Y */
+    font-size:clamp(56px,16.4vw,300px);
+    line-height:.82;
+    letter-spacing:-.02em;
+    margin:clamp(28px,5vw,64px) 0 clamp(16px,2vw,28px);
+    text-transform:uppercase;
+    max-width:100%;
+    white-space:nowrap;
+    overflow:hidden;
+  }
+  .tagline{
+    display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+    font-size:clamp(16px,2.4vw,30px);
+    font-weight:600;max-width:100%;
+  }
+  .tagline .desc{white-space:nowrap;flex-shrink:0}
+  .tagline .blurb{max-width:38ch;color:var(--mute);font-weight:400;
+    font-size:clamp(14px,1.5vw,18px);line-height:1.45}
+
+  /* ---------- FILTER BAR ---------- */
+  nav.filters{
+    position:sticky;top:56px;z-index:20;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    display:flex;gap:0;flex-wrap:wrap;align-items:center;
+    font-family:'Space Mono',monospace;
+    text-transform:uppercase;font-size:12px;
+  }
+  .filters .flabel{padding:12px 14px 12px 0;color:var(--mute);letter-spacing:.08em}
+  .filters button{
+    background:none;border:none;cursor:pointer;
+    padding:12px 18px;margin:0;
+    font:inherit;color:var(--ink);
+    letter-spacing:.06em;
+    transition:background .15s,color .15s;
+  }
+  .filters button:not(:last-of-type){border-right:none}
+  .filters button:last-of-type{padding-right:var(--gutter)}
+  .filters button:hover{background:var(--hover)}
+  .filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+  .filters .count{margin-right:auto;padding:12px var(--gutter);color:var(--mute);font-size:11px}
+
+  /* ---------- WORK GRID ---------- */
+  main{padding:0}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+  }
+  .card{
+    position:relative;
+    border-right:1px solid var(--line);
+    border-bottom:2px solid var(--line);
+    cursor:pointer;
+    background:var(--paper);
+    overflow:hidden;
+  }
+  .card:nth-child(2n){border-right:none}
+  .card-media{
+    position:relative;
+    aspect-ratio:4/3;
+    background:var(--ink);
+    overflow:hidden;
+  }
+  .card-media img,.card-media video{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .6s ease;
+  }
+  .card:hover .card-media img,.card:hover .card-media video{
+    transform:scale(1.04);
+  }
+  .badge{
+    position:absolute;top:0;left:0;
+    background:var(--ink);color:var(--paper);
+    font-family:'Space Mono',monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:.08em;
+    padding:7px 12px;z-index:2;
+  }
+  .play{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    z-index:2;pointer-events:none;
+  }
+  .play span{
+    width:64px;height:64px;border:2px solid var(--paper);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(10,10,10,.35);backdrop-filter:blur(2px);
+  }
+  .play span::after{
+    content:"";border-left:16px solid var(--paper);
+    border-top:10px solid transparent;border-bottom:10px solid transparent;
+    margin-left:4px;
+  }
+  .card-meta{
+    display:flex;justify-content:space-between;gap:12px;
+    padding:16px var(--gutter) 20px;
+    align-items:baseline;
+  }
+  .card-index{
+    font-family:'Space Mono',monospace;font-size:13px;color:var(--mute);
+  }
+  .card-title{
+    font-family:'Archivo Expanded','Archivo',sans-serif;
+    font-weight:800;font-size:clamp(20px,2.4vw,34px);
+    line-height:1;text-transform:uppercase;letter-spacing:-.01em;
+    flex:1;
+  }
+  .card-sub{
+    font-family:'Space Mono',monospace;font-size:12px;color:var(--mute);
+    text-transform:uppercase;text-align:right;white-space:nowrap;
+  }
+  .card.hidden{display:none}
+
+  /* ---------- LIGHTBOX ---------- */
+  .lb{
+    position:fixed;inset:0;z-index:50;
+    background:rgba(10,10,10,.96);
+    display:none;align-items:center;justify-content:center;
+    padding:clamp(16px,4vw,64px);
+  }
+  .lb.open{display:flex}
+  .lb-inner{width:100%;max-width:1100px;position:relative}
+  .lb-media{width:100%;background:#000;position:relative;aspect-ratio:16/9}
+  .lb-media iframe,.lb-media img,.lb-media video{
+    position:absolute;inset:0;width:100%;height:100%;border:none;object-fit:contain;
+  }
+  .lb-photo .lb-media{aspect-ratio:auto;max-height:80vh}
+  .lb-photo .lb-media img{position:static;max-height:80vh}
+  .lb-cap{
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    color:var(--paper);padding-top:18px;
+    font-family:'Space Mono',monospace;font-size:13px;text-transform:uppercase;
+  }
+  .lb-cap h3{
+    font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:800;
+    font-size:clamp(22px,3vw,40px);text-transform:uppercase;line-height:1;
+  }
+  .lb-close{
+    position:absolute;top:-46px;right:0;
+    background:none;border:none;color:var(--paper);cursor:pointer;
+    font-family:'Space Mono',monospace;font-size:14px;text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  .lb-close:hover{text-decoration:underline}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:clamp(48px,8vw,120px) var(--gutter);
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:24px;flex-wrap:wrap;
+  }
+  .foot-big{
+    font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:900;
+    font-size:clamp(32px,7vw,110px);line-height:.85;text-transform:uppercase;
+    letter-spacing:-.02em;
+  }
+  .foot-big a{color:var(--ink);text-decoration:none}
+  .foot-big a:hover{background:var(--ink);color:var(--paper)}
+  .foot-links{
+    font-family:'Space Mono',monospace;font-size:13px;text-transform:uppercase;
+    text-align:right;line-height:2;
+  }
+  .foot-links a{display:block;color:var(--ink);text-decoration:none}
+  .foot-links a:hover{color:var(--mute)}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:720px){
+    .grid{grid-template-columns:1fr}
+    .card{border-right:none}
+    .card:nth-child(2n){border-right:none}
+    .tagline{flex-direction:column;gap:10px}
+    .filters .count{display:none}
+    .filters button{flex:1;text-align:center;padding:14px 8px}
+    .filters .flabel{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;scroll-behavior:auto!important}
+  }
+  :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+  .filters button:focus-visible{outline-offset:-3px}
+
+  /* ---------- BRAND MARK ---------- */
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:26px;width:auto;display:block}
+  .brand .brand-label{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.02em;text-transform:uppercase}
+  .foot-mark{margin-bottom:28px}
+  .foot-mark img{height:54px;width:auto;display:block}
+
+  /* ---------- GALLERY NAV ---------- */
+  .lb-nav{
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:rgba(10,10,10,.5);color:var(--paper);border:1px solid var(--paper);
+    width:48px;height:48px;border-radius:50%;cursor:pointer;
+    font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;
+    z-index:3;transition:background .15s;
+  }
+  .lb-nav:hover{background:var(--paper);color:var(--ink)}
+  .lb-nav.prev{left:14px}
+  .lb-nav.next{right:14px}
+  .lb-counter{
+    position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+    background:rgba(10,10,10,.6);color:var(--paper);
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.05em;
+    padding:5px 12px;z-index:3;
+  }
+
+  /* ---------- PAGE NAV (Work / Services) ---------- */
+  nav.pagenav{position:sticky;top:0;z-index:21;background:var(--paper);border-bottom:2px solid var(--line);display:flex;font-family:'Space Mono',monospace;text-transform:uppercase;font-size:14px}
+  nav.pagenav a{padding:18px var(--gutter);color:var(--ink);border-right:1px solid var(--line);letter-spacing:.04em;text-decoration:none;transition:background .15s,color .15s}
+  nav.pagenav a:hover{background:var(--hover)}
+  nav.pagenav a[aria-current="page"]{background:var(--ink);color:var(--paper)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top-row">
+    <span class="brand"><img src="images/logo-0.png" alt="wzrdjay logo"><span class="brand-label">Portfolio — 2026</span></span>
+    <span>Leicester / London / Remote</span>
+  </div>
+  <h1 class="wordmark">Wzrdjay</h1>
+  <div class="tagline">
+    <div class="desc">Social media manager &amp; content creator.</div>
+    <div class="blurb">Social content, design and photography for premium brands. Eight years growing audiences and turning ideas into on-brand creative at speed.</div>
+  </div>
+</header>
+
+<nav class="pagenav" aria-label="Site sections">
+  <a href="index.html" aria-current="page">Work</a>
+  <a href="services.html">Services</a>
+</nav>
+
+<nav class="filters" aria-label="Filter work by type">
+  <span class="count" id="count"></span>
+  <span class="flabel">Filter</span>
+  <button data-filter="all" aria-pressed="true">All</button>
+  <button data-filter="graphic" aria-pressed="false">Graphics</button>
+  <button data-filter="photo" aria-pressed="false">Photography</button>
+</nav>
+
+<main>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="foot-mark" style="flex-basis:100%"><img src="images/logo-1.png" alt="wzrdjay"></div>
+  <div class="foot-big">
+    Let's<br>work — <a href="mailto:jay@wzrdjay.com">say hi</a>
+  </div>
+  <div class="foot-links">
+    <a href="mailto:jay@wzrdjay.com">jay@wzrdjay.com</a>
+    <a href="https://instagram.com/supercarsofleicester" target="_blank" rel="noopener">Instagram ↗</a>
+    <a href="https://linkedin.com/in/jaydevbulsara" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://supercarsofleicester.com" target="_blank" rel="noopener">Supercars of Leicester ↗</a>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Work detail">
+  <div class="lb-inner">
+    <button class="lb-close" id="lbClose">Close ✕</button>
+    <div class="lb-media" id="lbMedia"></div>
+    <div class="lb-cap">
+      <h3 id="lbTitle"></h3>
+      <div id="lbInfo"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   EDIT YOUR WORK HERE
+   ----------------------------------------------------------------
+   Add one object per piece. Order = display order (best first).
+
+   VIDEO — set media to an EMBED url:
+     Vimeo:   "https://player.vimeo.com/video/VIDEO_ID"
+     YouTube: "https://www.youtube.com/embed/VIDEO_ID"
+   and give a poster image (thumbnail) shown in the grid.
+
+   GRAPHIC / PHOTO — set media to an image URL or a local file
+   you upload alongside index.html, e.g. "work/frames-01.jpg".
+   Use poster:"" for those (the image itself is the thumbnail).
+   ================================================================ */
+  const GALLERY_WC = [
+        "images/work-00.jpg",
+        "images/work-01.jpg",
+        "images/work-02.jpg"
+      ];
+
+  const GALLERY_CHAI = [
+        "images/work-03.jpg",
+        "images/work-04.jpg",
+        "images/work-05.jpg",
+        "images/work-06.jpg"
+      ];
+
+  const GALLERY_UWS = [
+        "images/work-07.jpg",
+        "images/work-08.jpg",
+        "images/work-09.jpg",
+        "images/work-10.jpg"
+      ];
+
+  const GALLERY_CAMDEN = [
+        "images/work-11.jpg",
+        "images/work-12.jpg",
+        "images/work-13.jpg"
+      ];
+
+  const GALLERY_ACAI = [
+        "images/work-14.jpg",
+        "images/work-15.jpg",
+        "images/work-16.jpg"
+      ];
+
+  const GALLERY_AD = [
+        "images/work-17.jpg",
+        "images/work-18.jpg",
+        "images/work-19.jpg"
+      ];
+
+  const GALLERY_CENTRAL = [
+        "images/work-20.jpg",
+        "images/work-21.jpg"
+      ];
+
+  const GALLERY_EGGDOST = [
+        "images/work-22.jpg",
+        "images/work-23.jpg",
+        "images/work-24.jpg"
+      ];
+
+  const GALLERY_FRIVE = [
+        "images/work-25.jpg",
+        "images/work-26.jpg",
+        "images/work-27.jpg"
+      ];
+
+  const GALLERY_MYCO = [
+        "images/work-28.jpg",
+        "images/work-29.jpg"
+      ];
+
+  const GALLERY_THUNDER = [
+        "images/work-30.jpg",
+        "images/work-31.jpg"
+      ];
+
+  const GALLERY_HUMBLE = [
+        "images/work-32.jpg",
+        "images/work-33.jpg",
+        "images/work-34.jpg",
+        "images/work-35.jpg",
+        "images/work-36.jpg",
+        "images/work-37.jpg"
+      ];
+
+  const GALLERY_UWSPHOTO = [
+        "images/work-38.jpg",
+        "images/work-39.jpg",
+        "images/work-40.jpg",
+        "images/work-41.jpg"
+      ];
+
+  const GALLERY_RIDLEY = [
+        "images/work-42.jpg",
+        "images/work-43.jpg",
+        "images/work-44.jpg",
+        "images/work-45.jpg",
+        "images/work-46.jpg"
+      ];
+
+  const GALLERY_GOAL = [
+        "images/work-47.jpg",
+        "images/work-48.jpg",
+        "images/work-49.jpg",
+        "images/work-50.jpg",
+        "images/work-51.jpg",
+        "images/work-52.jpg",
+        "images/work-53.jpg",
+        "images/work-54.jpg"
+      ];
+
+  const GALLERY_RASCAL = [
+        "images/work-55.jpg",
+        "images/work-56.jpg",
+        "images/work-57.jpg",
+        "images/work-58.jpg"
+      ];
+
+  const WORK = [
+    {
+      type:"photo",
+      title:"World Cup",
+      client:"Essntl Frames",
+      year:"2026",
+      role:"Photography & art direction",
+      poster:GALLERY_WC[0],
+      gallery:GALLERY_WC
+    },
+    {
+      type:"graphic",
+      title:"Social Media Graphics",
+      client:"Camden Market",
+      year:"2025",
+      role:"Social design & art direction",
+      poster:GALLERY_CAMDEN[0],
+      gallery:GALLERY_CAMDEN
+    },
+    {
+      type:"graphic",
+      title:"Social Media Graphics",
+      client:"Acai Berry",
+      year:"2025",
+      role:"Social design & art direction",
+      poster:GALLERY_ACAI[0],
+      gallery:GALLERY_ACAI
+    },
+    {
+      type:"graphic",
+      title:"Brand Redesign and Print",
+      client:"Acquire Digital",
+      year:"2020",
+      role:"Brand identity & print design",
+      poster:GALLERY_AD[0],
+      gallery:GALLERY_AD
+    },
+    {
+      type:"graphic",
+      title:"Social Media Stories and Carousels",
+      client:"Central Lounge",
+      year:"2025",
+      role:"Social design & art direction",
+      poster:GALLERY_CENTRAL[0],
+      gallery:GALLERY_CENTRAL
+    },
+    {
+      type:"graphic",
+      title:"Branding and Menu Design",
+      client:"Egg Dost",
+      year:"2024",
+      role:"Brand identity, menu & social design",
+      poster:GALLERY_EGGDOST[0],
+      gallery:GALLERY_EGGDOST
+    },
+    {
+      type:"graphic",
+      title:"Social Media Graphics",
+      client:"Frive",
+      year:"2024",
+      role:"Social design & art direction",
+      poster:GALLERY_FRIVE[0],
+      gallery:GALLERY_FRIVE
+    },
+    {
+      type:"graphic",
+      title:"Social Media Stories",
+      client:"Myco",
+      year:"2025",
+      role:"Social design & art direction",
+      poster:GALLERY_MYCO[0],
+      gallery:GALLERY_MYCO
+    },
+    {
+      type:"graphic",
+      title:"Logo and Business Cards",
+      client:"Thunderbolt Security",
+      year:"2022",
+      role:"Logo & brand identity design",
+      poster:GALLERY_THUNDER[0],
+      gallery:GALLERY_THUNDER
+    },
+    {
+      type:"photo",
+      title:"Summer Drinks",
+      client:"Chai Guys",
+      year:"2025",
+      role:"Photography & art direction",
+      poster:GALLERY_CHAI[0],
+      gallery:GALLERY_CHAI
+    },
+    {
+      type:"graphic",
+      title:"Rebrand Stationary",
+      client:"Unique Window Systems",
+      year:"2025",
+      role:"Brand & print design",
+      poster:GALLERY_UWS[0],
+      gallery:GALLERY_UWS
+    },
+    {
+      type:"photo",
+      title:"Brand Collaboration",
+      client:"Humble Crumble",
+      year:"2026",
+      role:"Photography & art direction",
+      poster:GALLERY_HUMBLE[0],
+      gallery:GALLERY_HUMBLE
+    },
+    {
+      type:"photo",
+      title:"Commercial",
+      client:"Unique Window Systems",
+      year:"2024",
+      role:"Commercial & industrial photography",
+      poster:GALLERY_UWSPHOTO[0],
+      gallery:GALLERY_UWSPHOTO
+    },
+    {
+      type:"photo",
+      title:"Real Estate",
+      client:"Ridley Street",
+      year:"2026",
+      role:"Property & interior photography",
+      poster:GALLERY_RIDLEY[0],
+      gallery:GALLERY_RIDLEY
+    },
+    {
+      type:"photo",
+      title:"Commercial",
+      client:"What a Goal",
+      year:"2022",
+      role:"Commercial & venue photography",
+      poster:GALLERY_GOAL[0],
+      gallery:GALLERY_GOAL
+    },
+    {
+      type:"photo",
+      title:"Leisure",
+      client:"Rascal Ranch",
+      year:"2023",
+      role:"Commercial & venue photography",
+      poster:GALLERY_RASCAL[0],
+      gallery:GALLERY_RASCAL
+    }
+  ];
+
+  const grid = document.getElementById('grid');
+  const countEl = document.getElementById('count');
+  const pad = n => String(n+1).padStart(2,'0');
+
+  function render(items){
+    grid.innerHTML = items.map((w,i)=>{
+      const thumb = w.poster && w.poster.length ? w.poster : w.media;
+      const isVid = w.type==='video';
+      return `
+      <article class="card" data-type="${w.type}" data-i="${WORK.indexOf(w)}" tabindex="0" role="button" aria-label="Open ${w.title}">
+        <div class="card-media">
+          <span class="badge">${w.type}${w.gallery&&w.gallery.length>1?' · '+w.gallery.length:''}</span>
+          ${isVid?'<div class="play"><span></span></div>':''}
+          <img src="${thumb}" alt="${w.title} — ${w.client}" loading="lazy">
+        </div>
+        <div class="card-meta">
+          <span class="card-index">${pad(i)}</span>
+          <span class="card-title">${w.title}</span>
+          <span class="card-sub">${w.client}<br>${w.role} · ${w.year}</span>
+        </div>
+      </article>`;
+    }).join('');
+    // fix right-border on last-in-row for odd counts
+    countEl.textContent = `${items.length} project${items.length!==1?'s':''}`;
+    bindCards();
+  }
+
+  function bindCards(){
+    document.querySelectorAll('.card').forEach(c=>{
+      const open = ()=>openLightbox(WORK[+c.dataset.i]);
+      c.addEventListener('click',open);
+      c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+    });
+  }
+
+  /* filtering */
+  let active='all';
+  document.querySelectorAll('.filters button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      active=b.dataset.filter;
+      document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed', x===b));
+      render(active==='all'?WORK:WORK.filter(w=>w.type===active));
+    });
+  });
+
+  /* lightbox */
+  const lb=document.getElementById('lb');
+  const lbMedia=document.getElementById('lbMedia');
+  const lbTitle=document.getElementById('lbTitle');
+  const lbInfo=document.getElementById('lbInfo');
+
+  let galleryImgs=[], galleryIdx=0, galleryAlt='';
+  function showGalleryImg(i){
+    const n=galleryImgs.length;
+    galleryIdx=(i+n)%n;
+    lbMedia.innerHTML=`<img src="${galleryImgs[galleryIdx]}" alt="${galleryAlt}">`+
+      (n>1?`<button class="lb-nav prev" aria-label="Previous">‹</button>`+
+            `<button class="lb-nav next" aria-label="Next">›</button>`+
+            `<div class="lb-counter">${galleryIdx+1} / ${n}</div>`:'');
+    if(n>1){
+      lbMedia.querySelector('.prev').onclick=e=>{e.stopPropagation();showGalleryImg(galleryIdx-1);};
+      lbMedia.querySelector('.next').onclick=e=>{e.stopPropagation();showGalleryImg(galleryIdx+1);};
+    }
+  }
+  function openLightbox(w){
+    lb.classList.toggle('lb-photo', w.type!=='video');
+    galleryImgs=[]; galleryAlt=`${w.title} — ${w.client}`;
+    if(w.type==='video'){
+      lbMedia.innerHTML=`<iframe src="${w.media}?autoplay=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+    } else if(w.gallery && w.gallery.length){
+      galleryImgs=w.gallery; showGalleryImg(0);
+    } else {
+      lbMedia.innerHTML=`<img src="${w.media}" alt="${galleryAlt}">`;
+    }
+    lbTitle.textContent=w.title;
+    lbInfo.innerHTML=`${w.client}<br>${w.role} · ${w.year}`;
+    lb.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function closeLightbox(){
+    lb.classList.remove('open');
+    lbMedia.innerHTML='';
+    document.body.style.overflow='';
+  }
+  document.getElementById('lbClose').addEventListener('click',closeLightbox);
+  lb.addEventListener('click',e=>{if(e.target===lb)closeLightbox();});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape')closeLightbox();
+    if(lb.classList.contains('open') && galleryImgs.length>1){
+      if(e.key==='ArrowLeft')showGalleryImg(galleryIdx-1);
+      if(e.key==='ArrowRight')showGalleryImg(galleryIdx+1);
+    }
+  });
+
+  render(WORK);
+</script>
+</body>
+</html>

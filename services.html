@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WZRDJAY — Services</title>
+<link rel="icon" type="image/png" href="images/logo-0.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;900&family=Archivo+Expanded:wght@800;900&family=Space+Mono:wght@400;700&display=swap');
+
+  :root{
+    --ink:#0a0a0a;
+    --paper:#ffffff;
+    --line:#0a0a0a;
+    --mute:#8a8a8a;
+    --hover:#f2f2f2;
+    --gutter:clamp(20px,4vw,64px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'Archivo',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.3;overflow-x:hidden}
+
+  /* HEADER */
+  header{padding:var(--gutter);padding-top:clamp(28px,5vw,56px);border-bottom:2px solid var(--line)}
+  .top-row{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.02em;text-transform:uppercase}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{height:26px;width:auto;display:block}
+  .brand .brand-label{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.02em;text-transform:uppercase}
+  .wordmark{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:900;font-size:clamp(56px,16.4vw,300px);line-height:.82;letter-spacing:-.02em;margin:clamp(28px,5vw,64px) 0 clamp(16px,2vw,28px);text-transform:uppercase;max-width:100%;white-space:nowrap;overflow:hidden}
+  .tagline{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:clamp(16px,2.4vw,30px);font-weight:600}
+  .tagline .desc{white-space:nowrap;flex-shrink:0}
+  .tagline .blurb{max-width:38ch;color:var(--mute);font-weight:400;font-size:clamp(14px,1.5vw,18px);line-height:1.45}
+
+  /* NAV */
+  nav.filters{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:2px solid var(--line);display:flex;gap:0;flex-wrap:wrap;font-family:'Space Mono',monospace;text-transform:uppercase;font-size:14px}
+  nav.filters a{background:none;border:none;cursor:pointer;padding:18px var(--gutter);font:inherit;color:var(--ink);border-right:1px solid var(--line);letter-spacing:.04em;text-decoration:none;transition:background .15s,color .15s}
+  nav.filters a:hover{background:var(--hover)}
+  nav.filters a[aria-current="page"]{background:var(--ink);color:var(--paper)}
+
+  /* SERVICES GRID */
+  main{padding:0}
+  .svc-grid{display:grid;grid-template-columns:repeat(2,1fr)}
+  .svc{border-right:1px solid var(--line);border-bottom:2px solid var(--line);padding:clamp(28px,4vw,56px) var(--gutter);display:flex;flex-direction:column;gap:14px;min-height:clamp(260px,32vw,380px)}
+  .svc:nth-child(2n){border-right:none}
+  .svc-num{font-family:'Space Mono',monospace;font-size:13px;color:var(--mute)}
+  .svc-title{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:800;font-size:clamp(26px,3.4vw,46px);line-height:1;text-transform:uppercase;letter-spacing:-.01em}
+  .svc-desc{color:var(--mute);font-size:clamp(14px,1.5vw,17px);line-height:1.5;max-width:46ch}
+  .svc-tags{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px}
+  .svc-tags span{font-family:'Space Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.04em;border:1px solid var(--line);padding:5px 10px}
+
+  /* CTA STRIP */
+  .cta{padding:clamp(40px,7vw,100px) var(--gutter);border-bottom:2px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .cta-big{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:900;font-size:clamp(30px,6vw,92px);line-height:.85;text-transform:uppercase;letter-spacing:-.02em}
+  .cta-big a{color:var(--ink);text-decoration:none}
+  .cta-big a:hover{background:var(--ink);color:var(--paper)}
+  .cta-note{font-family:'Space Mono',monospace;font-size:13px;text-transform:uppercase;color:var(--mute);max-width:30ch;text-align:right;line-height:1.6}
+
+  /* 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 */
+  footer{padding:clamp(40px,5vw,64px) var(--gutter) clamp(32px,5vw,64px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .foot-mark{flex-basis:100%;margin-bottom:28px}
+  .foot-mark img{height:54px;width:auto;display:block}
+  .foot-big{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:900;font-size:clamp(32px,7vw,110px);line-height:.85;text-transform:uppercase;letter-spacing:-.02em}
+  .foot-big a{color:var(--ink);text-decoration:none}
+  .foot-big a:hover{background:var(--ink);color:var(--paper)}
+  .foot-links{font-family:'Space Mono',monospace;font-size:13px;text-transform:uppercase;text-align:right;line-height:2}
+  .foot-links a{display:block;color:var(--ink);text-decoration:none}
+  .foot-links a:hover{color:var(--mute)}
+
+  @media (max-width:720px){
+    .svc-grid{grid-template-columns:1fr}
+    .svc{border-right:none}
+    .tagline{flex-direction:column;gap:10px}
+    nav.filters a{flex:1;text-align:center;padding:16px 8px}
+    .cta{flex-direction:column;align-items:flex-start}
+    .cta-note{text-align:left}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+  :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+  nav.filters a:focus-visible{outline-offset:-3px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top-row">
+    <span class="brand"><img src="images/logo-0.png" alt="wzrdjay logo"><span class="brand-label">Portfolio — 2026</span></span>
+    <span>Leicester / London / Remote</span>
+  </div>
+  <h1 class="wordmark">Wzrdjay</h1>
+  <div class="tagline">
+    <div class="desc">Social media manager &amp; content creator.</div>
+    <div class="blurb">Social content, design and photography for premium brands. Eight years growing audiences and turning ideas into on-brand creative at speed.</div>
+  </div>
+</header>
+
+<nav class="filters" aria-label="Site sections">
+  <a href="index.html">Work</a>
+  <a href="services.html" aria-current="page">Services</a>
+</nav>
+
+<main>
+  <div class="svc-grid">
+
+    <section class="svc">
+      <span class="svc-num">01</span>
+      <h2 class="svc-title">Social Media Management</h2>
+      <p class="svc-desc">End-to-end management of your channels: content calendars, scheduling, copy that matches your tone of voice, and day-to-day community engagement. I keep your presence consistent, on-brand and growing.</p>
+      <div class="svc-tags"><span>Content calendars</span><span>Copywriting</span><span>Community</span><span>Reporting</span></div>
+    </section>
+
+    <section class="svc">
+      <span class="svc-num">02</span>
+      <h2 class="svc-title">Graphic Design</h2>
+      <p class="svc-desc">On-brand digital and print creative built in Photoshop, Illustrator and InDesign. Social assets, web banners, email graphics, flyers, menus and campaign visuals, delivered fast without cutting corners on quality.</p>
+      <div class="svc-tags"><span>Social assets</span><span>Print</span><span>Campaigns</span><span>Adobe Suite</span></div>
+    </section>
+
+    <section class="svc">
+      <span class="svc-num">03</span>
+      <h2 class="svc-title">Brand Identity</h2>
+      <p class="svc-desc">Logos, visual identity and brand guidelines that give your business a distinctive, consistent look. From a single mark to a full identity system across stationery, packaging and digital.</p>
+      <div class="svc-tags"><span>Logos</span><span>Guidelines</span><span>Visual identity</span></div>
+    </section>
+
+    <section class="svc">
+      <span class="svc-num">04</span>
+      <h2 class="svc-title">Photography</h2>
+      <p class="svc-desc">Content-led photography for social, web and print. Food and product, commercial and industrial, property and venue shoots. Shot and edited to sit cohesively alongside the rest of your brand.</p>
+      <div class="svc-tags"><span>Product &amp; food</span><span>Commercial</span><span>Property</span><span>Events</span></div>
+    </section>
+
+    <section class="svc">
+      <span class="svc-num">05</span>
+      <h2 class="svc-title">Content Creation</h2>
+      <p class="svc-desc">Short-form and static content built for the way people actually scroll. Concepts, shoots and edits for Instagram, TikTok and beyond, tuned to each brand's voice and the goals of the campaign.</p>
+      <div class="svc-tags"><span>Short-form</span><span>Photo &amp; video</span><span>Concepts</span></div>
+    </section>
+
+    <section class="svc">
+      <span class="svc-num">06</span>
+      <h2 class="svc-title">Campaign &amp; Event Support</h2>
+      <p class="svc-desc">Hands-on support across product launches, campaigns and events. Content capture on location, creative project coordination, and the organisational legwork that keeps a launch on schedule.</p>
+      <div class="svc-tags"><span>Launches</span><span>On-location</span><span>Coordination</span></div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="foot-mark"><img src="images/logo-1.png" alt="wzrdjay"></div>
+  <div class="foot-big">Let's<br>work — <a href="mailto:jay@wzrdjay.com">say hi</a></div>
+  <div class="foot-links">
+    <a href="mailto:jay@wzrdjay.com">jay@wzrdjay.com</a>
+    <a href="index.html">Work ↗</a>
+    <a href="https://instagram.com/supercarsofleicester" target="_blank" rel="noopener">Instagram ↗</a>
+    <a href="https://linkedin.com/in/jaydevbulsara" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+</footer>
+
+</body>
+</html>
